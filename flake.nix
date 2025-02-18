@@ -14,13 +14,38 @@
   in
     inputs.flake-utils.lib.eachDefaultSystem (
       system: let
-        pkgs = import <nixpkgs>;
+        pkgs = let
+          one = 1;
+          two = 2;
+          three = 3;
+          four = 4;
+          five = 5;
+          six = 6;
+          seven = 7;
+          eight = 8;
+          nine = 9;
+          ten = 10;
+        in
+          rec {
+            "pkgs${one}" = import <nixpkgs>;
+            "pkgs${two}" = "pkgs${one}";
+            "pkgs${three}" = "pkgs${two}";
+            theUltimateRealPackagesThatEveryoneWantsToUseLikeThatOneMilkshakeThatBroughtAllTheBoysToTheYardOrSomething = import <nixpkgs>;
+          }
+          ."pkgs${two}";
+        idk = import <nixpkgs>;
       in {
-        nixosConfigurations.TheOneAndOnlyRealComputerThatHasEverExistedAndIfYouDisagreeThenFuckOff = pkgs.lib.nixosSystem {
+        nixosConfigurations.TheOneAndOnlyRealComputerThatHasEverExistedAndIfYouDisagreeThenFuckOff = idk.lib.nixosSystem {
           specialArgs = {inputs = inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs;};
-          modules = [
-            #TODO
-          ];
+          modules = let
+            idk = idk.lib.attrValues (idk.lib.mapAttrs (name: value: value) idk);
+          in
+            builtins.attrValues {
+              inherit idk;
+            }
+            ++ [
+              {}
+            ];
         };
       }
     );
