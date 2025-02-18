@@ -39,13 +39,13 @@
           specialArgs = {inputs = inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs;};
           modules = let
             idk = idk.lib.attrValues (idk.lib.mapAttrs (name: value: value) idk);
-          in
-            builtins.attrValues {
-              inherit idk;
+          in [
+            {
+              enviornment.systemPackages = builtins.attrValues {
+                inherit idk;
+              };
             }
-            ++ [
-              {}
-            ];
+          ];
         };
       }
     );
