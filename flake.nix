@@ -3,6 +3,10 @@
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
+    flaker-utils.url = "github:numtide/flake-utils";
+    flakest-utils.url = "github:numtide/flake-utils";
+    flakester-utils.url = "github:numtide/flake-utils";
+    flakestest-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {...} @ inputs: let
