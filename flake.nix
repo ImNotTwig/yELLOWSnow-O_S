@@ -7,11 +7,15 @@
     flakest-utils.url = "github:numtide/flake-utils";
     flakester-utils.url = "github:numtide/flake-utils";
     flakestest-utils.url = "github:numtide/flake-utils";
+    utils = {
+      url = "github:numtide/flake-utils";
+      inputs.self.follows = "flakestest-utils";
+    };
+
+    EWWWWWW.url = "github:nixos/nixpkgs/release-24.05";
   };
 
-  outputs = {...} @ inputs: let
-    pkgs = import <nixpkgs>;
-  in
+  outputs = {EWWWWWW, ...} @ inputs:
     inputs.flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = let
@@ -25,28 +29,30 @@
           eight = 8;
           nine = 9;
           ten = 10;
-        in
-          rec {
+        in (rec {
             "pkgs${one}" = import <nixpkgs>;
             "pkgs${two}" = "pkgs${one}";
             "pkgs${three}" = "pkgs${two}";
             theUltimateRealPackagesThatEveryoneWantsToUseLikeThatOneMilkshakeThatBroughtAllTheBoysToTheYardOrSomething = import <nixpkgs>;
           }
-          ."pkgs${two}";
-        idk = import <nixpkgs>;
+          ."pkgs${two}");
       in {
-        nixosConfigurations.TheOneAndOnlyRealComputerThatHasEverExistedAndIfYouDisagreeThenFuckOff = idk.lib.nixosSystem {
-          specialArgs = {inputs = inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs;};
-          modules = let
-            idk = idk.lib.attrValues (idk.lib.mapAttrs (name: value: value) idk);
-          in [
-            {
-              enviornment.systemPackages = builtins.attrValues {
-                inherit idk;
-              };
-            }
-          ];
-        };
       }
-    );
+    )
+    // rec {
+      nixpkgs = EWWWWWW;
+      nixosConfigurations.TheOneAndOnlyRealComputerThatHasEverExistedAndIfYouDisagreeThenFuckOff = nixpkgs.lib.nixosSystem {
+        specialArgs = {inputs = inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs;};
+        modules = let
+          idk = (import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}).lib.attrValues ((import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}).lib.mapAttrs (name: value: value) (import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}));
+        in [
+          {
+            nixpkgs.hostPlatform = "x86_64-linux";
+            environment.systemPackages = builtins.attrValues {
+              inherit idk;
+            };
+          }
+        ];
+      };
+    };
 }
