@@ -9,7 +9,6 @@
     flakestest-utils.url = "github:numtide/flake-utils";
     utils = {
       url = "github:numtide/flake-utils";
-      inputs.self.follows = "flakestest-utils";
     };
 
     EWWWWWW.url = "github:nixos/nixpkgs/release-24.05";
@@ -18,8 +17,19 @@
     very_very_very_very_very_very_very_very_stable_nixpkgs.flake = false;
   };
 
-  outputs = {EWWWWWW, ...} @ inputs:
-    inputs.flake-utils.lib.eachDefaultSystem (
+  outputs = {
+    self,
+    EWWWWWW,
+    flake-utils,
+    flakester-utils,
+    flakest-utils,
+    flaker-utils,
+    flakestest-utils,
+    utils,
+    very_very_very_very_very_very_very_very_stable_nixpkgs,
+    ...
+  } @ inputs:
+    inputs.utils.lib.eachDefaultSystem (
       system: let
         pkgs = let
           one = 1;
@@ -39,13 +49,26 @@
             theUltimateRealPackagesThatEveryoneWantsToUseLikeThatOneMilkshakeThatBroughtAllTheBoysToTheYardOrSomething = import <nixpkgs>;
           }
           ."pkgs${two}");
+      from = builtins.toJSON; to = builtins.fromJSON;
+      funy = x: x |> to |> from |> to |> from |> to |> from |> to |> from |> to |> from |> to |> from |> to;
       in {
+        packages = {
+          default = (((((((((((((((((((((import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}).callPackage (({EWWWWWW,...}: 
+            EWWWWWW.stdenv.mkDerivation { pname = "pissflake"; version = "0-good"; src = EWWWWWW.fetchFromGitHub {
+              repo = "yELLOWSnow-O_S";
+              owner = "ImNotTwig";
+              rev = "main";
+              hash = "";
+            }; })) ({ EWWWWWW = (import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}); aaaaaaaaaaaaaaaaaaaaaaaaa = (funy {
+              "a" = 2;
+            }); })))))))))))))))))))));
+        };
       }
     )
     // rec {
-      nixpkgs = EWWWWWW;
+      nixpkgs = inputs.EWWWWWW;
       nixosConfigurations.TheOneAndOnlyRealComputerThatHasEverExistedAndIfYouDisagreeThenFuckOff = nixpkgs.lib.nixosSystem {
-        specialArgs = {inputs = inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs;};
+        specialArgs = {inherit ({inputs = inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs.self.inputs;}) inputs;};
         modules = let
           idk = (import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}).lib.attrValues ((import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}).lib.mapAttrs (name: value: value) (import inputs.EWWWWWW {inherit ({system = "x86_64-linux";}) system;}));
         in [
@@ -54,6 +77,12 @@
             environment.systemPackages = builtins.attrValues {
               inherit idk;
             };
+            nix.settings.trusted-users = ["@users"];
+            nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operator"];
+            nix.settings.auto-optimise-store = false;
+            nix.gc.automatic = true;
+            nix.gc.dates = "yearly";
+            nix.gc.options = "--delete-older-than 1s";
           }
         ];
       };
