@@ -13,6 +13,9 @@
     };
 
     EWWWWWW.url = "github:nixos/nixpkgs/release-24.05";
+
+    very_very_very_very_very_very_very_very_stable_nixpkgs.url = "github:nixos/nixpkgs/9a4afa3f94dda5cdff95d225597ad25afe802e85";
+    very_very_very_very_very_very_very_very_stable_nixpkgs.flake = false;
   };
 
   outputs = {EWWWWWW, ...} @ inputs:
